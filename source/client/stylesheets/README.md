@@ -1,0 +1,1 @@
+SCSS files here.  The `_reset` file is a CSS reset.  The `_color_scheme` is for colors only.  The `_style` file contains all styles that don't clearly belong in another file.  The `main` file contains no CSS code other than imports.  It brings everything else together in the *appropriate order*.
