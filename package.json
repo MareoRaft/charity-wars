@@ -8,12 +8,14 @@
 	],
 	"homepage": "https://github.com/MareoRaft/charity-wars#readme",
 	"scripts": {
-		"test": "cd source/blockchain && truffle test",
+		"test": "cd source/blockchain && truffle test --network development",
 		"watch": "npm-watch"
 	},
 	"watch": {
 		"test": {
 			"patterns": [
+				"package.json",
+				"source/blockchain/truffle.js",
 				"source/blockchain/contracts",
 				"source/blockchain/test"
 			],

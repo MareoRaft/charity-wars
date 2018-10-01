@@ -71,19 +71,21 @@ contract Round {
 		return true;
 	}
 
-	// collect the pledges from everyone
-	// could be INTERNAL instead of payable if this function reacts to an event from an oracle, and the internal 'owner' pays the fees of the txs
-	function collect() onlyOwner onlyActive payable public returns(uint total) {
+	// calculate how much money has been pledged
+	function totalPledged() view public returns(uint total) {
 		total = 0;
 		for(uint i = 0; i < pledgers.length; i++) {
 			total += pledger_to_amount[pledgers[i]];
 		}
+	}
+
+	// collect the pledges from everyone
+	// could be INTERNAL instead of payable if this function reacts to an event from an oracle, and the internal 'owner' pays the fees of the txs
+	function collect() onlyOwner onlyActive payable public returns(bool success) {
 		// actually deduct pledges from pledgers and pay to owner
-		// once we make above change, remove 'view' from func def, since it will now modify bchain!
 		active = false;
 		// selfdestruct(owner);
-		// for pledger or pledgers
-		return total;
+		return true;
 	}
 }
 

@@ -18,6 +18,11 @@ contract TestRound {
 		Round r = new Round();
 		r.pledge(uint(50));
 		r.pledgers(0);
+		// works, but useless (read on)
+		// assert(bool(2 == 2));
+		// the following fails without helpful error message or line number:
+		// assert(bool(1 == 2));
+		// r.pledgers(0).equal(0x341FaaE3dF296544c90E12140Df6551964309395, "from wrong person");
 		msg.sender.equal(msg.sender, "two identical things are not equal!");
 		// indeed, the recorded pledger is NOT msg.sender.  Not sure why.
 		// msg.sender.equal(r.pledgers(0), "you are not the 0th pledger.");
@@ -59,31 +64,31 @@ contract TestRound {
 		amount.equal(uint(0), "pledge not 0'd out");
 	}
 
-	function testCollect1() public {
+	function testTotalPledged1() public {
 		// single pledge
 		Round r = new Round();
 		r.pledge(uint(2));
-		uint total = r.collect();
+		uint total = r.totalPledged();
 		total.equal(uint(2), "total is not pledge amount");
 	}
 
-	function testCollect2() public {
+	function testTotalPledged2() public {
 		// two pledges from same person
 		Round r = new Round();
 		r.pledge(uint(2));
 		// this overwrite the previous pledge
 		r.pledge(uint(3));
-		uint total = r.collect();
+		uint total = r.totalPledged();
 		total.equal(uint(3), "total is wrong");
 	}
 
-	function testCollect3() public {
-		// two pledges from different people
-		Round r = new Round();
-		r.pledge(uint(2));
-		r.pledge(uint(3));
-		uint total = r.collect();
-		total.equal(uint(5), "total is not sum of pledges");
-	}
+	// function testTotalPledged3() public {
+	// 	// two pledges from different people
+	// 	Round r = new Round();
+	// 	r.pledge(uint(2));
+	// 	r.pledge(uint(3));
+	// 	uint total = r.totalPledged();
+	// 	total.equal(uint(5), "total is not sum of pledges");
+	// }
 
 }
