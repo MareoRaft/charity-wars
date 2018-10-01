@@ -15,7 +15,11 @@ contract Round {
 
 	// or in future, do a 2-dim array: pledgers['pledgecategory'][]
 	address[] public pledgers;
-	mapping (address => uint) pledger_to_amount;
+	mapping (address => uint) public pledger_to_amount;
+
+	function pledgersLength() view public returns(uint length) {
+		return pledgers.length;
+	}
 
 	// constructor
 	constructor() payable public {
@@ -34,14 +38,8 @@ contract Round {
 		_;
 	}
 
-	// just in case the owner doesn't want to take money from one of the pledgers
-	function removePledger(address pledger) onlyOwner onlyActive payable public returns (bool success) {
-		pledger_to_amount[pledger] = 0;
-		return true;
-	}
-
 	// allow anyone to pledge money
-	function pledge(uint amount) onlyActive payable public returns (bool success) {
+	function pledge(uint amount) onlyActive payable public returns(bool success) {
 		// SHOULD first check to see pledger is not a duplicate
 		pledgers.push(msg.sender);
 		pledger_to_amount[msg.sender] = amount;
@@ -49,9 +47,15 @@ contract Round {
 		return true;
 	}
 
+	// just in case the owner doesn't want to take money from one of the pledgers
+	function removePledger(address pledger) onlyOwner onlyActive payable public returns(bool success) {
+		pledger_to_amount[pledger] = 0;
+		return true;
+	}
+
 	// collect the pledges from everyone
 	// could be INTERNAL instead of payable if this function reacts to an event from an oracle, and the internal 'owner' pays the fees of the txs
-	function collect() onlyOwner onlyActive payable public returns (uint total) {
+	function collect() onlyOwner onlyActive payable public returns(uint total) {
 		total = 0;
 		for(uint i = 0; i < pledgers.length; i++) {
 			total += pledger_to_amount[pledgers[i]];
