@@ -3,7 +3,7 @@ pragma solidity ^0.4.4;
 
 // a single contract instance will represent a single round of pledges for a single event and payout accordingly
 contract Round {
-
+	// utilities here, if any
 
 	// the guy shaving runs the round
 	// doesn't really need to be public
@@ -17,7 +17,7 @@ contract Round {
 	address[] public pledgers;
 	mapping (address => uint) public pledger_to_amount;
 
-	function pledgersLength() view public returns(uint length) {
+	function pledgersLength() view external returns(uint length) {
 		return pledgers.length;
 	}
 
@@ -38,12 +38,30 @@ contract Round {
 		_;
 	}
 
+	function isPledger(address person) view public returns(bool is_pledger) {
+		for(uint i = 0; i < pledgers.length; i++) {
+			if(person == pledgers[i]) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 	// allow anyone to pledge money
 	function pledge(uint amount) onlyActive payable public returns(bool success) {
-		// SHOULD first check to see pledger is not a duplicate
-		pledgers.push(msg.sender);
-		pledger_to_amount[msg.sender] = amount;
-		// somehow tie up their money
+		address pledger = msg.sender;
+		// if pledger has pledged before, check pledge
+		if(isPledger(pledger)) {
+			// you can't LOWER a pledge
+			require(amount > pledger_to_amount[pledger]);
+		}
+		// otherwise, post them as new pledger
+		else {
+			pledgers.push(pledger);
+		}
+		// finally, adjust their pledge
+		pledger_to_amount[pledger] = amount;
+		// somehow tie up their money (similar to stakeBela, their money can't be used for anything else as long as it is 'pledged').  This might be as simple as transferring it to another account.
 		return true;
 	}
 

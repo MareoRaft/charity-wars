@@ -32,6 +32,14 @@ contract TestRound {
 		r.pledgersLength().equal(uint(0), "pledgers not empty");
 	}
 
+	function testIsPledger() public {
+		Round r = new Round();
+		r.pledge(uint(1));
+		address pledger = r.pledgers(0);
+		assert(r.isPledger(pledger));
+		assert(!r.isPledger(address(0x11)));
+	}
+
 	function testPledge() public {
 		Round r = new Round();
 		r.pledge(uint(50));
@@ -60,13 +68,22 @@ contract TestRound {
 	}
 
 	function testCollect2() public {
-		// two pledges
+		// two pledges from same person
+		Round r = new Round();
+		r.pledge(uint(2));
+		// this overwrite the previous pledge
+		r.pledge(uint(3));
+		uint total = r.collect();
+		total.equal(uint(3), "total is wrong");
+	}
+
+	function testCollect3() public {
+		// two pledges from different people
 		Round r = new Round();
 		r.pledge(uint(2));
 		r.pledge(uint(3));
 		uint total = r.collect();
 		total.equal(uint(5), "total is not sum of pledges");
 	}
-
 
 }
