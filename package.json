@@ -1,0 +1,27 @@
+{
+	"name": "charity-wars",
+	"version:": "1.0.0",
+	"description": "Etherium smart-contracts for fun charity games.",
+	"keywords": [
+		"solidity",
+		"web3js"
+	],
+	"homepage": "https://github.com/MareoRaft/charity-wars#readme",
+	"scripts": {
+		"test": "cd source/blockchain && truffle test",
+		"watch": "npm-watch"
+	},
+	"watch": {
+		"test": {
+			"patterns": [
+				"source/blockchain/contracts",
+				"source/blockchain/test"
+			],
+			"extensions": "sol,js",
+			"quiet": true
+		}
+	},
+	"dependencies": {
+		"npm-watch": "^0.4.0"
+	}
+}
