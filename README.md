@@ -16,10 +16,15 @@ Run a fake node for testing purposes with `ganache-cli` or better yet, use `Gana
 
 Run operations for solidity with truffle: `truffle compile`, `truffle migrate`, `truffle console`, etc.
 
-## test
+## test / main
 
 Run tests (with a watcher) with
 
     npm run watch
+
+Run the javascript with
+
+    node main.js
+
 
 
