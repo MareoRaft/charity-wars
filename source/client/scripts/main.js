@@ -1,6 +1,6 @@
-const Web3 = require('web3')
+const { Drizzle, generateStore } = require('drizzle')
 
-const ABI = require('../assets/ABI.json')
+const Round = require('../../blockchain/build/contracts/Round.json')
 
 // main JS entry point
 let p1 = '0x341FaaE3dF296544c90E12140Df6551964309395'
@@ -27,14 +27,7 @@ function onerror(error) {
 	alert("bad bad bad")
 }
 
-function main() {
-	let web3 = new Web3(
-		new Web3.providers.HttpProvider('http://localhost:7545')
-	)
-	let RoundAddress = '0x12540aa611f8b3f2eff59f2d788c4be1394165fe'
-	let RoundABI = ABI
-	let RoundContract = web3.eth.contract(RoundABI).at(RoundAddress)
-	// let defaultAccount = web3.eth.accounts[0]
+function dostuff() {
 	// RoundContract.totalPledged(function(error, total) {
 	// 	alert('got something')
 	// })
@@ -45,6 +38,18 @@ function main() {
 	// 	.then(ondeploy)
 	// 	.then(onsuccess)
 	// 	.catch(onerror)
+}
+
+function main() {
+	const options = {
+	  contracts: [
+	    Round,
+	  ],
+	}
+	const drizzleStore = generateStore(this.props.options)
+	const drizzle = new Drizzle(this.props.options, drizzleStore)
+
+
 }
 
 main()

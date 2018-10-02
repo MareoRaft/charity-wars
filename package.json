@@ -24,6 +24,7 @@
 		}
 	},
 	"dependencies": {
+		"drizzle": "^1.2.3",
 		"npm-watch": "^0.4.0",
 		"web3": "^1.0.0-beta.36"
 	}
