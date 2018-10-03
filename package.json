@@ -9,6 +9,7 @@
 	"homepage": "https://github.com/MareoRaft/charity-wars#readme",
 	"scripts": {
 		"test": "cd source/blockchain && truffle test --network development-light",
+		"serve": "cd build && live-server",
 		"watch": "npm-watch"
 	},
 	"watch": {
@@ -36,5 +37,6 @@
 		"web3": "^1.0.0-beta.36"
 	},
 	"devDependencies": {
+		"live-server": "^1.2.0"
 	}
 }
