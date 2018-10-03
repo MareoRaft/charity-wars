@@ -8,7 +8,7 @@
 	],
 	"homepage": "https://github.com/MareoRaft/charity-wars#readme",
 	"scripts": {
-		"test": "cd source/blockchain && truffle test --network development",
+		"test": "cd source/blockchain && truffle test --network development-light",
 		"watch": "npm-watch"
 	},
 	"watch": {
@@ -24,8 +24,17 @@
 		}
 	},
 	"dependencies": {
+		"browserify": "^16.2.3",
 		"drizzle": "^1.2.3",
+		"gulp-buffer": "0.0.2",
+		"gulp-sourcemaps": "^2.6.4",
+		"gulp-tap": "^1.0.1",
+		"gulp-uglify": "^3.0.1",
+		"gulplog": "^1.0.0",
 		"npm-watch": "^0.4.0",
+		"uniq": "^1.0.1",
 		"web3": "^1.0.0-beta.36"
+	},
+	"devDependencies": {
 	}
 }

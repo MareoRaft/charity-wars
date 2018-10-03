@@ -46,8 +46,8 @@ function main() {
 	    Round,
 	  ],
 	}
-	const drizzleStore = generateStore(this.props.options)
-	const drizzle = new Drizzle(this.props.options, drizzleStore)
+	const drizzleStore = generateStore(options)
+	const drizzle = new Drizzle(options, drizzleStore)
 
 
 }

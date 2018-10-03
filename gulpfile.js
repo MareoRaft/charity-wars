@@ -3,6 +3,12 @@ const gulp = require('gulp')
 
 const compass = require('gulp-for-compass')
 const autoprefixer = require('gulp-autoprefixer')
+const browserify = require('browserify')
+const log = require('gulplog')
+const tap = require('gulp-tap')
+const buffer = require('gulp-buffer')
+const sourcemaps = require('gulp-sourcemaps')
+// const uglify = require('gulp-uglify') // when publishing
 
 /////////////////// GLOBALS ///////////////////
 const src_assets = 'source/client/assets'
@@ -36,7 +42,17 @@ gulp.task('css', function() {
 })
 
 gulp.task('js', function() {
-	gulp.src(src_js_targeted)
+	// see https://github.com/gulpjs/gulp/blob/master/docs/recipes/browserify-multiple-destination.md
+	gulp.src(src_js_targeted, {read: false})
+		.pipe(tap(function(file) {
+			log.info(`bundling ${file.path}`)
+			let b = browserify(file.path, {debug: true})
+			file.contents = b.bundle()
+		}))
+		.pipe(buffer())
+		.pipe(sourcemaps.init({loadMaps: true}))
+		// .pipe(uglify)
+		.pipe(sourcemaps.write('./'))
 		.pipe(gulp.dest(bld_js))
 })
 
