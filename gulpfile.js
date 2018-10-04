@@ -17,8 +17,7 @@ const bld_assets = 'build/assets'
 const src_scss = 'source/client/stylesheets'
 const src_scss_targeted = src_scss + '/**/*.scss'
 const bld_scss = 'build/stylesheets'
-const src_js = 'source/client/scripts'
-const src_js_targeted = src_js + '/**/*.js'
+const src_js_targeted = ['source/client/scripts/**/*.js', 'source/blockchain/build/contracts/Round.json']
 const bld_js = 'build/scripts'
 const src_html_targeted = 'source/client/**/*.html'
 

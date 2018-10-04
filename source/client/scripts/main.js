@@ -1,6 +1,7 @@
 const { Drizzle, generateStore } = require('drizzle')
 
-const Round = require('../../blockchain/build/contracts/Round.json')
+const RoundJSON = require('../../blockchain/build/contracts/Round.json')
+// const RoundContract = new web3.eth.Contract(abi, address, {data: 'deployedBytecode' })
 
 // main JS entry point
 let p1 = '0x341FaaE3dF296544c90E12140Df6551964309395'
@@ -43,15 +44,14 @@ function dostuff() {
 function main() {
 	const options = {
 	  contracts: [
-	    Round,
+	    RoundJSON,
 	  ],
 	}
 	const drizzleStore = generateStore(options)
 	const drizzle = new Drizzle(options, drizzleStore)
 
-
 }
 
 main()
-console.log('log hi')
+console.log('all done')
 
