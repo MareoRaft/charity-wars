@@ -17,6 +17,10 @@ contract Round {
 	address[] public pledgers;
 	mapping (address => uint) public pledger_to_amount;
 
+	function getPledgers() view external returns(address[] pledgers) {
+		return pledgers;
+	}
+
 	function pledgersLength() view external returns(uint length) {
 		return pledgers.length;
 	}
