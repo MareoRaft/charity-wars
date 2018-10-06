@@ -1,9 +1,9 @@
-pragma solidity ^0.4.4;
+pragma solidity ^0.4.17;
 
 
 // a single contract instance will represent a single round of pledges for a single event and payout accordingly
 contract Round {
-	// utilities here, if any
+
 
 	// the guy shaving runs the round
 	// doesn't really need to be public
@@ -17,7 +17,7 @@ contract Round {
 	address[] public pledgers;
 	mapping (address => uint) public pledger_to_amount;
 
-	function getPledgers() view external returns(address[] pledgers) {
+	function getPledgers() view external returns(address[] result) {
 		return pledgers;
 	}
 

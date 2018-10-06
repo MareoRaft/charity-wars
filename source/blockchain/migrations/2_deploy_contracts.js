@@ -1,5 +1,5 @@
-var Round = artifacts.require("Round.sol");
+let Round = artifacts.require('Round.sol')
 
 module.exports = function(deployer) {
-  deployer.deploy(Round);
-};
+  deployer.deploy(Round)
+}
