@@ -35,7 +35,7 @@ contract TestRound {
 		assert(r.active());
 		// must create a getter in Round to retrieve array
 		// store in memory instead of contract's storage (for array and struct only)
-		address[] memory pledgers = r.getPledgers();
+		// address[] memory pledgers = r.getPledgers();
 		r.pledgersLength().equal(uint(0), "pledgers not empty");
 	}
 
