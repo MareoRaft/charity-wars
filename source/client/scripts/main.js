@@ -1,6 +1,9 @@
 const Web3 = require('web3')
 
-const ABI = require('../assets/ABI.json')
+const RoundJSON = require('../../blockchain/build/contracts/Round.json')
+const RoundABI = RoundJSON['abi']
+// but THIS doesn't stay up to date!
+const RoundAddress = RoundJSON['networks']['1538847153053']['address']
 
 // main JS entry point
 let p1 = '0x341FaaE3dF296544c90E12140Df6551964309395'
@@ -9,6 +12,7 @@ let p3 = '0x9c250D9764A9EcE4D64318E710c09aD79c6d0B80'
 
 // GLOBALS
 let round;
+const NETWORK_PORT = 8545
 
 // MAIN
 function ondeploy(instance) {
@@ -27,17 +31,30 @@ function onerror(error) {
 	alert("bad bad bad")
 }
 
-function main() {
+async function main() {
 	let web3 = new Web3(
-		new Web3.providers.HttpProvider('http://localhost:7545')
+		Web3.givenProvider ||
+		new Web3.providers.HttpProvider(`http://localhost:${NETWORK_PORT}`) ||
+		`ws://localhost:${NETWORK_PORT}`
 	)
-	let RoundAddress = '0x12540aa611f8b3f2eff59f2d788c4be1394165fe'
-	let RoundABI = ABI
-	let RoundContract = web3.eth.contract(RoundABI).at(RoundAddress)
-	// let defaultAccount = web3.eth.accounts[0]
-	// RoundContract.totalPledged(function(error, total) {
-	// 	alert('got something')
-	// })
+	let round = new web3.eth.Contract(RoundABI, RoundAddress)
+	let r = await round.methods
+	let defaultAccount = web3.eth.accounts[0]
+	// console.log(round)
+	// both .call and NOT .call seem to work (.call is supposed to be for 'constant' methods)
+
+	// r.totalPledged().call()
+
+	// r.totalPledged().call({from: '0x2f7dcc33f538f9b2e31fb952c38b40202046aa27'})
+
+	// r.totalPledged().send({from: '0x2f7dcc33f538f9b2e31fb952c38b40202046aa27'})
+	// 	.on('transactionHash', function(hash){
+	// 		console.log(hash)
+	// 	})
+
+	let tx = r.totalPledged.call()
+	console.log(tx)
+
 	// Round.new() or Round.deployed() if it already exists
 	// or if it's been deployed and you know the address,
 	// Round.at("0x123...")
@@ -48,5 +65,4 @@ function main() {
 }
 
 main()
-console.log('log hi')
 
