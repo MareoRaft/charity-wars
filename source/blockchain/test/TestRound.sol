@@ -9,13 +9,19 @@ import "../contracts/Round.sol";
 contract TestRound {
 
 
+	// or just write Assert.equal(this, that, "not working") below
 	using Assert for int;
 	using Assert for uint;
 	using Assert for address; // working?
 	using Assert for bytes;
 
+	function create() public returns(Round round){
+		return new Round(0x047EF8bcA5BB552c7907cc73A6610d32F8D93AB2
+		);
+	}
+
 	function testTest() public {
-		Round r = new Round();
+		Round r = create();
 		r.pledge(uint(50));
 		address pledger = r.pledgers(0);
 		// works, but useless (read on)
@@ -29,7 +35,7 @@ contract TestRound {
 
 	function testSetup() public {
 		// make sure global vars are there
-		Round r = new Round();
+		Round r = create();
 		address owner = r.owner();
 		owner.equal(this, "who is owner?");
 		assert(r.active());
@@ -40,7 +46,7 @@ contract TestRound {
 	}
 
 	function testIsPledger() public {
-		Round r = new Round();
+		Round r = create();
 		r.pledge(uint(1));
 		address pledger = r.pledgers(0);
 		assert(r.isPledger(pledger));
@@ -49,7 +55,7 @@ contract TestRound {
 	}
 
 	function testPledge() public {
-		Round r = new Round();
+		Round r = create();
 		r.pledge(uint(50));
 		// check that there is a pledge of 50
 		address pledger = r.pledgers(0);
@@ -58,7 +64,7 @@ contract TestRound {
 	}
 
 	function testRemovePledger() public {
-		Round r = new Round();
+		Round r = create();
 		r.pledge(uint(1));
 		address pledger = r.pledgers(0);
 		r.removePledger(pledger);
@@ -69,7 +75,7 @@ contract TestRound {
 
 	function testTotalPledged1() public {
 		// single pledge
-		Round r = new Round();
+		Round r = create();
 		r.pledge(uint(2));
 		uint total = r.totalPledged();
 		total.equal(uint(2), "total is not pledge amount");
@@ -77,7 +83,7 @@ contract TestRound {
 
 	function testTotalPledged2() public {
 		// two pledges from same person
-		Round r = new Round();
+		Round r = create();
 		r.pledge(uint(2));
 		// this overwrite the previous pledge
 		r.pledge(uint(3));
@@ -87,7 +93,7 @@ contract TestRound {
 
 	// function testTotalPledged3() public {
 	// 	// two pledges from different people
-	// 	Round r = new Round();
+	// 	Round r = create();
 	// 	r.pledge(uint(2));
 	// 	r.pledge(uint(3));
 	// 	uint total = r.totalPledged();

@@ -9,6 +9,10 @@ contract Round {
 	// doesn't really need to be public
 	address public owner;
 
+	// the charity that the owner chooses to be the
+	// recipient of the donations
+	address public charity;
+
 	// is the bet still going or has it already happened?
 	// self-destruct contract when done.  Then won't need active or onlyActive.
 	bool public active = true;
@@ -26,8 +30,9 @@ contract Round {
 	}
 
 	// constructor
-	constructor() payable public {
+	constructor(address _charity) payable public {
 		owner = msg.sender;
+		charity = _charity;
 	}
 
 	// decorator/modifier for only-owner methods
@@ -86,7 +91,10 @@ contract Round {
 	// collect the pledges from everyone
 	// could be INTERNAL instead of payable if this function reacts to an event from an oracle, and the internal 'owner' pays the fees of the txs
 	function collect() onlyOwner onlyActive payable public returns(bool success) {
-		// actually deduct pledges from pledgers and pay to owner
+		// transfer pledges
+		address pledger = pledgers[0];
+		charity.transfer(pledger_to_amount[pledger]);
+
 		active = false;
 		// selfdestruct(owner);
 		return true;

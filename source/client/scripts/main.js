@@ -1,6 +1,6 @@
 const { Drizzle, generateStore } = require('drizzle')
 
-const RoundJSON = require('../../blockchain/build/contracts/Round.json')
+const RoundArtifact = require('../../blockchain/build/contracts/Round.json')
 
 // main JS entry point
 let p1 = '0x341FaaE3dF296544c90E12140Df6551964309395'
@@ -61,7 +61,7 @@ function getData() {
 function init() {
 	const options = {
 	  contracts: [
-	    RoundJSON,
+	    RoundArtifact,
 	  ],
 	}
 	const drizzleStore = generateStore(options)
