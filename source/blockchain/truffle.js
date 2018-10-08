@@ -16,7 +16,7 @@ module.exports = {
 	// See <http://truffleframework.com/docs/advanced/configuration>
 	// to customize your Truffle configuration!
 	networks: {
-		"development": {
+		"development-cli": {
 			// ganache-cli
 			host: "localhost",
 			port: 8545,
