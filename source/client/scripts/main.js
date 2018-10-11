@@ -42,34 +42,22 @@ async function main() {
 	let defaultAccount = web3.eth.accounts[0]
 
 
-	// works, w recipient address error!
-	let tx = await round.methods.totalPledged().call(function(error, result){
-		console.log({error, result})
+	// try to pledge something!
+	// if you use await and there is an error, then the code will fail because the error is thrown instead of being fed into error1
+	let receipt = await r.pledge(4).send({from: '0x687b62fE4FAD8D6b5DF342a334d011EEC1C54bCC'}, function(error1, tx_hash){
+		console.log({error1, tx_hash})
 	})
-	console.log({tx})
+	console.log({receipt})
 
-	//no
-	// round.methods.totalPledged(function(error, result){
-	// 	console.log('hi')
-	// })
-
-	//no
-	// round.methods.totalPledged().call()
-	//     .then(console.log)
-
-	// works, but don't know how to get return val
-	// let tx = r.totalPledged.call()
-	// console.log(tx)
+	// works, w recipient address error!
+	// optional options = {options here such as from}
+	// as first argument.  callback is last arg
+	let total = await r.totalPledged().call(function(error2, result){
+		console.log({error2, result})
+	})
+	console.log({total})
 
 
-
-
-	// console.log(round)
-	// both .call and NOT .call seem to work (.call is supposed to be for 'constant' methods)
-
-	// r.totalPledged().call()
-
-	// r.totalPledged().call({from: '0x2f7dcc33f538f9b2e31fb952c38b40202046aa27'})
 
 	// r.totalPledged().send({from: '0x2f7dcc33f538f9b2e31fb952c38b40202046aa27'})
 	// 	.on('transactionHash', function(hash){
