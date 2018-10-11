@@ -12,7 +12,7 @@ let p3 = '0x9c250D9764A9EcE4D64318E710c09aD79c6d0B80'
 
 // GLOBALS
 let round;
-const NETWORK_PORT = 8545
+const NETWORK_PORT = 7545
 
 // MAIN
 function ondeploy(instance) {
@@ -40,6 +40,29 @@ async function main() {
 	let round = new web3.eth.Contract(RoundABI, RoundAddress)
 	let r = await round.methods
 	let defaultAccount = web3.eth.accounts[0]
+
+
+	// works, w recipient address error!
+	round.methods.totalPledged().call(function(error, result){
+		console.log(error)
+	})
+
+	//no
+	// round.methods.totalPledged(function(error, result){
+	// 	console.log('hi')
+	// })
+
+	//no
+	// round.methods.totalPledged().call()
+	//     .then(console.log)
+
+	// works, but don't know how to get return val
+	// let tx = r.totalPledged.call()
+	// console.log(tx)
+
+
+
+
 	// console.log(round)
 	// both .call and NOT .call seem to work (.call is supposed to be for 'constant' methods)
 
@@ -51,9 +74,6 @@ async function main() {
 	// 	.on('transactionHash', function(hash){
 	// 		console.log(hash)
 	// 	})
-
-	let tx = r.totalPledged.call()
-	console.log(tx)
 
 	// Round.new() or Round.deployed() if it already exists
 	// or if it's been deployed and you know the address,
