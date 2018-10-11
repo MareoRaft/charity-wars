@@ -3,7 +3,7 @@ const Web3 = require('web3')
 const RoundJSON = require('../../blockchain/build/contracts/Round.json')
 const RoundABI = RoundJSON['abi']
 // but THIS doesn't stay up to date!
-const RoundAddress = RoundJSON['networks']['1538847153053']['address']
+const RoundAddress = RoundJSON['networks']['5777']['address']
 
 // main JS entry point
 let p1 = '0x341FaaE3dF296544c90E12140Df6551964309395'
