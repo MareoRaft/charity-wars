@@ -43,9 +43,10 @@ async function main() {
 
 
 	// works, w recipient address error!
-	round.methods.totalPledged().call(function(error, result){
-		console.log(error)
+	let tx = await round.methods.totalPledged().call(function(error, result){
+		console.log({error, result})
 	})
+	console.log({tx})
 
 	//no
 	// round.methods.totalPledged(function(error, result){
