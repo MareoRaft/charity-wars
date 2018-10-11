@@ -9,7 +9,9 @@
 	"homepage": "https://github.com/MareoRaft/charity-wars#readme",
 	"scripts": {
 		"start": "cd source/blockchain && ganache-cli & cd source/blockchain && sleep 5 && truffle compile && truffle migrate",
-		"test": "cd source/blockchain && truffle test --network development-cli",
+		"test": "cd source/blockchain && truffle test --network development-app",
+		"build": "gulp",
+		"main": "cd source/blockchain && truffle exec --network development-app ../client/scripts/main.js",
 		"serve": "cd build && live-server",
 		"watch": "npm-watch"
 	},

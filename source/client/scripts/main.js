@@ -16,19 +16,19 @@ let log = console.log
 
 // MAIN
 async function init() {
-
 	r = await Round.new()
+	log(r.address)
 
+	let owner = await r.owner()
+	console.log({owner})
 
-	console.log(r.address)
-	// return round.sendCoin(p3, 10, {from: p2})
-	// remember ".call" for view and pure functions
+	let total = undefined
+	total = (await r.totalPledged()).toNumber()
+	console.log({total})
 
-
-	r.totalPledged().call().then(function(ret) {
-		log(`total=${ret}`)
-	})
-
+	r.pledge(1)
+	total = (await r.totalPledged()).toNumber()
+	console.log({total})
 }
 
 async function main() {
@@ -36,3 +36,8 @@ async function main() {
 }
 
 main()
+
+// for truffle exec compatibility (https://truffleframework.com/docs/truffle/getting-started/writing-external-scripts)
+module.exports = function(callback) {
+	// pass
+}
