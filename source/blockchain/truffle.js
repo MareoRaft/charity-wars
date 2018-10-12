@@ -12,27 +12,14 @@
  *   },
  */
 
-let networks = {
-	'development-cli': {
-		// ganache-cli
-		host: 'localhost',
-		port: 8545,
-		network_id: '*', // match any network id
-	},
-	'development-app': {
-		// Ganache.app
-		host: 'localhost',
-		port: 7545,
-		network_id: '*',
-		from: '0x341FaaE3dF296544c90E12140Df6551964309395',
-	},
-}
-networks['development'] = networks['development-app']
+let config = require('../config.js')
 
-let config = {
-	// See <http://truffleframework.com/docs/advanced/configuration>
-	// to customize your Truffle configuration!
-	networks,
+// See http://truffleframework.com/docs/advanced/configuration
+// there is a contracts_build_directory option
+// http://truffleframework.com/docs/advanced/configuration/build-processes
+// for custom build.  perhaps what we need. (i think you can edit source dir)
+let truffle_config = {
+	networks: config['networks'],
 }
 
-module.exports = config
+module.exports = truffle_config
