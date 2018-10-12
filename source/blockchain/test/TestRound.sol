@@ -17,23 +17,25 @@ contract TestRound {
 	function testTest() public {
 		Round r = new Round();
 		r.pledge(uint(50));
-		r.pledgers(0);
+		address pledger = r.pledgers(0);
 		// works, but useless (read on)
 		// assert(bool(2 == 2));
 		// the following fails without helpful error message or line number:
 		// assert(bool(1 == 2));
-		// r.pledgers(0).equal(0x341FaaE3dF296544c90E12140Df6551964309395, "from wrong person");
 		msg.sender.equal(msg.sender, "two identical things are not equal!");
-		// indeed, the recorded pledger is NOT msg.sender.  Not sure why.
-		// msg.sender.equal(r.pledgers(0), "you are not the 0th pledger.");
+		// The address of THIS contract (TestRound) becomes the msg.sender within r.pledge.
+		pledger.equal(this, "from wrong person");
 	}
 
 	function testSetup() public {
 		// make sure global vars are there
 		Round r = new Round();
-		r.owner();
+		address owner = r.owner();
+		owner.equal(this, "who is owner?");
 		assert(r.active());
-		r.pledgers;
+		// must create a getter in Round to retrieve array
+		// store in memory instead of contract's storage (for array and struct only)
+		// address[] memory pledgers = r.getPledgers();
 		r.pledgersLength().equal(uint(0), "pledgers not empty");
 	}
 
@@ -42,6 +44,7 @@ contract TestRound {
 		r.pledge(uint(1));
 		address pledger = r.pledgers(0);
 		assert(r.isPledger(pledger));
+		// 0x11 is just some random address
 		assert(!r.isPledger(address(0x11)));
 	}
 

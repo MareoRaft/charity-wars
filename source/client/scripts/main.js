@@ -5,11 +5,6 @@ const RoundABI = RoundJSON['abi']
 // but THIS doesn't stay up to date!
 const RoundAddress = RoundJSON['networks']['5777']['address']
 
-// main JS entry point
-let p1 = '0x341FaaE3dF296544c90E12140Df6551964309395'
-let p2 = '0x047EF8bcA5BB552c7907cc73A6610d32F8D93AB2'
-let p3 = '0x9c250D9764A9EcE4D64318E710c09aD79c6d0B80'
-
 // GLOBALS
 const NETWORK_PORT = 7545
 let web3
@@ -75,7 +70,7 @@ async function main() {
 
 	// try to pledge something!
 	// if you use await and there is an error, then the code will fail because the error is thrown instead of being fed into error1
-	let receipt = await r.pledge(1).send(
+	let receipt = await r.pledge(2).send(
 		{from: accounts[2]},
 		function(error1, tx_hash){
 			console.log({error1, tx_hash})

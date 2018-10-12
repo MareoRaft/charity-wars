@@ -16,13 +16,13 @@ module.exports = {
 	// See <http://truffleframework.com/docs/advanced/configuration>
 	// to customize your Truffle configuration!
 	networks: {
-		"development-light": {
+		"development-cli": {
 			// ganache-cli
 			host: "localhost",
 			port: 8545,
 			network_id: "*", // match any network id
 		},
-		development: {
+		"development-app": {
 			// Ganache.app
 			host: "localhost",
 			port: 7545,
