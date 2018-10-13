@@ -1,92 +1,75 @@
-const { Drizzle, generateStore } = require('drizzle')
+const Web3 = require('web3')
 
-const RoundArtifact = require('../../blockchain/build/contracts/Round.json')
-
-// main JS entry point
-let p1 = '0x341FaaE3dF296544c90E12140Df6551964309395'
-let p2 = '0x047EF8bcA5BB552c7907cc73A6610d32F8D93AB2'
-let p3 = '0x9c250D9764A9EcE4D64318E710c09aD79c6d0B80'
+const RoundJSON = require('../../blockchain/build/contracts/Round.json')
+const RoundABI = RoundJSON['abi']
+// but THIS doesn't stay up to date!
+const RoundAddress = RoundJSON['networks']['5777']['address']
 
 // GLOBALS
-let drizzle
+const config = require('../../config.js')
+const NETWORK_PORT = config['networks']['development']['port']
+console.log({NETWORK_PORT})
+let web3
 let round
-let R
 let r
-
-// HELPERS
-let log = console.log
+let accounts
 
 // MAIN
-function ondeploy(instance) {
-	round = instance
-	console.log(round.address)
-	return round.sendCoin(p3, 10, {from: p2})
-	// remember ".call" for view and pure functions
+function initWeb3() {
+	web3 = new Web3(
+		Web3.givenProvider ||
+		new Web3.providers.HttpProvider(`http://localhost:${NETWORK_PORT}`) ||
+		`ws://localhost:${NETWORK_PORT}`
+	)
 }
 
-function onsuccess(returnvar) {
-	alert("tx successful!!")
-	console.log(returnvar)
-}
+function init() {
+	initWeb3()
 
-function onerror(error) {
-	alert("bad bad bad")
-}
-
-function dostuff() {
-	// RoundContract.totalPledged(function(error, total) {
-	// 	alert('got something')
-	// })
+	round = new web3.eth.Contract(RoundABI, RoundAddress)
 	// Round.new() or Round.deployed() if it already exists
 	// or if it's been deployed and you know the address,
 	// Round.at("0x123...")
 	// Round.new()
-	// 	.then(ondeploy)
+	// 	.then(ondeploy) // ondeploy input is instance
 	// 	.then(onsuccess)
 	// 	.catch(onerror)
+
+	r = round.methods
+
+	// none of the accounts are known to Web3 AFAIK because why would it know about all the addresses?
+	// let accounts = web3.eth.accounts
+	// let default_account = accounts[0]
+	// console.log(web3.eth.accounts)
+	// console.log(web3.eth.accounts[2])
+	// console.log(web3.eth.accounts[0])
+	// console.log(accounts[2])
+	accounts = [
+		'0x341FaaE3dF296544c90E12140Df6551964309395',
+		'0x047EF8bcA5BB552c7907cc73A6610d32F8D93AB2',
+		'0x9c250D9764A9EcE4D64318E710c09aD79c6d0B80',
+	]
 }
 
-function getData() {
-	let state = drizzle.store.getState()
-	log(state)
-	if (state.drizzleStatus.initialized) {
-		const data_key = drizzle.contracts.Round.methods.storedData.cacheCall()
-		return state.contracts.Round.methods.storedData[data_key].value
-	}
-	else {
-		return 'Loading...'
-	}
-}
-
-function init() {
-	const options = {
-	  contracts: [
-	    RoundArtifact,
-	  ],
-	}
-	const drizzleStore = generateStore(options)
-	drizzle = new Drizzle(options, drizzleStore)
-	log(drizzle.contracts)
-	log('full')
-	R = drizzle.contracts.Round
-}
-
-function init2() {
-	// more init stuff after a small delay
-	r = drizzle.contracts.Round.methods
-}
-
-function main() {
+async function main() {
 	init()
-	setTimeout(function() {
-		init2()
-		// let data = getData()
-		// log(data)
-		r.totalPledged().call().then(function(ret) {
-			log(`total=${ret}`)
-		})
-	// 600 is enough, but not 500
-	}, 1000)
+
+	// try to pledge something!
+	// if you use await and there is an error, then the code will fail because the error is thrown instead of being fed into error1
+	let receipt = await r.pledge(5).send(
+		{from: accounts[2]},
+		function(error1, tx_hash){
+			console.log({error1, tx_hash})
+	})
+	console.log({receipt})
+
+	// works, w recipient address error!
+	// optional options = {options here such as from}
+	// as first argument.  callback is last arg
+	let total = await r.totalPledged().call(function(error2, result){
+		console.log({error2, result})
+	})
+	console.log({total})
 }
 
 main()

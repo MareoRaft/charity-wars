@@ -13,12 +13,12 @@ const sourcemaps = require('gulp-sourcemaps')
 /////////////////// GLOBALS ///////////////////
 const src_assets = 'source/client/assets'
 const src_assets_targeted = src_assets + '/**/*'
-const bld_assets = 'build/assets'
+const bld_assets = 'build/client/assets'
 const src_scss = 'source/client/stylesheets'
 const src_scss_targeted = src_scss + '/**/*.scss'
-const bld_scss = 'build/stylesheets'
+const bld_scss = 'build/client/stylesheets'
 const src_js_targeted = ['source/client/scripts/**/*.js', 'source/blockchain/build/contracts/Round.json']
-const bld_js = 'build/scripts'
+const bld_js = 'build/client/scripts'
 const src_html_targeted = 'source/client/**/*.html'
 
 const log_standard = function(event) {
@@ -57,7 +57,7 @@ gulp.task('js', function() {
 
 gulp.task('html', function() {
 	gulp.src('source/client/index.html')
-		.pipe(gulp.dest('build'))
+		.pipe(gulp.dest('build/client'))
 })
 
 gulp.task('assets', function() {
