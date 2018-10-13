@@ -56,7 +56,7 @@ async function main() {
 
 	// try to pledge something!
 	// if you use await and there is an error, then the code will fail because the error is thrown instead of being fed into error1
-	let receipt = await r.pledge(4).send(
+	let receipt = await r.pledge(5).send(
 		{from: accounts[2]},
 		function(error1, tx_hash){
 			console.log({error1, tx_hash})
