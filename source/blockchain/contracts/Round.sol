@@ -3,7 +3,8 @@ pragma solidity ^0.4.17;
 
 // a single contract instance will represent a single round of pledges for a single event and payout accordingly
 contract Round {
-
+	// utilities
+	// none yet!
 
 	// the guy shaving runs the round
 	// doesn't really need to be public
@@ -30,9 +31,8 @@ contract Round {
 	}
 
 	// constructor
-	constructor(address _charity) payable public {
+	constructor() payable public {
 		owner = msg.sender;
-		charity = _charity;
 	}
 
 	// decorator/modifier for only-owner methods
@@ -45,6 +45,19 @@ contract Round {
 	modifier onlyActive() {
 		require(active);
 		_;
+	}
+
+	// pick the charity to receive the donation
+	function setCharity(address new_charity) onlyOwner onlyActive payable public returns(bool success) {
+		// TODO: check if the charity is valid
+		// if the charity is already set, abort
+		if (charity == 0x0) {
+			charity = new_charity;
+			return true;
+		}
+		else {
+			return false;
+		}
 	}
 
 	function isPledger(address person) view public returns(bool is_pledger) {

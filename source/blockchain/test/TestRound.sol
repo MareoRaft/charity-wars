@@ -10,17 +10,32 @@ contract TestRound {
 
 
 	// or just write Assert.equal(this, that, "not working") below
+	using Assert for bool;
 	using Assert for int;
 	using Assert for uint;
 	using Assert for address; // working?
 	using Assert for bytes;
+	using Assert for string;
 
 	function create() public returns(Round round){
-		return new Round(0x047EF8bcA5BB552c7907cc73A6610d32F8D93AB2
-		);
+		return new Round();
 	}
 
 	function testTest() public {
+		// test testing-level things themselves
+
+		// initialized variables take on the appropriate "zero" value
+		bool blank_bool;
+		blank_bool.equal(false, "boolean was not false by default");
+		int blank_int;
+		blank_int.equal(0, "int was not 0 by default");
+		uint blank_uint;
+		blank_uint.equal(0, "uint was not 0 by default");
+		address blank_address;
+		blank_address.equal(0x0000000000000000000000000000000000000000, "address was not 0x000... by default");
+		blank_address.equal(0x0, "address was not TRUCATED 0x000... by default");
+		// i'm not sure about bytes or string
+
 		Round r = create();
 		r.pledge(uint(50));
 		address pledger = r.pledgers(0);
@@ -43,6 +58,24 @@ contract TestRound {
 		// store in memory instead of contract's storage (for array and struct only)
 		// address[] memory pledgers = r.getPledgers();
 		r.pledgersLength().equal(uint(0), "pledgers not empty");
+	}
+
+	function testSetCharity() public {
+		Round r = create();
+		// set the charity once
+		bool success = r.setCharity(0x1);
+		assert(success);
+		// but not twice
+		success = r.setCharity(0x2);
+		assert(!success);
+	}
+
+	function testGetCharity() public {
+		Round r = create();
+		// no need for a getter
+		r.setCharity(0x1);
+		address charity = r.charity();
+		charity.equal(0x1, "couldn't retrieve correct charity");
 	}
 
 	function testIsPledger() public {
